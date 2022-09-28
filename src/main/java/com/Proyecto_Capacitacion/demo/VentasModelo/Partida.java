@@ -31,9 +31,8 @@ public class Partida {
     
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "venta")
-//    @Column
+
     private Venta venta;
 
     public Venta getVenta() {
@@ -47,23 +46,15 @@ public class Partida {
     @Override
     public String toString() {
 
-        //Sin este método el return regresa el memory address no los valores
-        //Return original con todos los valores
-        //return "Partida{" + "venta=" + venta + ", id_partida=" + id_partida + ", articulo=" + articulo + ", cantidad=" + cantidad + ", precio=" + precio + ", estado=" + estado + '}';
-        //Return modo csv con solo los valores que me interesan
         String separador = ",";
         return id + separador + articulo + separador + cantidad + separador + precio + separador + estado;
-//        return id + separador + articulo + separador + cantidad + separador + precio + separador + estado + separador + venta.getId();
-//        return id + separador + articulo + separador + cantidad + separador + precio + separador + estado + separador + idVenta;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column
+
     private Long id;
 
-//    @Column
-//    private int idVenta;
     @Column
     private String articulo;
 
@@ -84,16 +75,6 @@ public class Partida {
     public void setId(Long id) {
         this.id = id;
     }
-
-    //
-//    public int getidVenta() {
-//        return idVenta;
-//    }
-//
-//    public void setidVenta(int idVenta) {
-//        this.idVenta = idVenta;
-//    }
-    //
     
     public String getArticulo() {
         return articulo;

@@ -32,11 +32,8 @@ public class Venta implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column
+
     private Long id;
-    
-//    @Column
-//    private int id_partida;
     
     @Column
     private String folio;
@@ -61,14 +58,6 @@ public class Venta implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-
-//    public int getId_partida() {
-//        return id_partida;
-//    }
-//
-//    public void setId_partida(int id_partida) {
-//        this.id_partida = id_partida;
-//    }
 
     public String getFolio() {
         return folio;
@@ -95,25 +84,16 @@ public class Venta implements Serializable{
     }
         
     
-    //Linkear las 2 tablas?
     @JsonManagedReference
-//    @JsonIgnore //Se ignora para que no muestre 2 veces las partidas
     @OneToMany(mappedBy="venta", cascade = CascadeType.ALL)
     private List<Partida> partida = new ArrayList<>();
-//    private List<PartidaModel> partida = new ArrayList<>();
 
-//    @JsonIgnore
     public List<Partida> getPartida() {
-        //Este es el otro que muestra partidas, pero este es necesario para ingresar datos, así que el @JsonIgnore se debe poner en el otro
         return partida; 
     }
-//    @JsonIgnore
+    
     public void setPartida(List<Partida> partida) {
         this.partida = partida;
     }
-
-//    Venta get() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
     
 }

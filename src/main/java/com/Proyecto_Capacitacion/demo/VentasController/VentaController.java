@@ -35,13 +35,10 @@ public class VentaController {
     @PostMapping(value = "/ventas")
     public boolean guardarVenta(@RequestBody Venta venta) {
 
-        //Mover el if al Service?
         if (ventaService.folioDuplicado(venta.getFolio(), venta.getId()) == true) {
             System.out.println("Folio duplicado");
             return false;
         }
-
-//        System.out.println("guardarVenta - " + this.ventaService.guardarVenta(venta));
         
         return this.ventaService.guardarVenta(venta);
     }
@@ -53,7 +50,6 @@ public class VentaController {
     }
 
     //Get listado de ventas
-    //Cambiarlo a mismo mapeo pero que le pueda mandar mas de uno?
     @GetMapping(path = "/ventas")
     public ArrayList<Venta> obtenerVentaPorValor(
             @RequestParam(value = "folio", required = false) String Folio, //http://localhost:8080/ventas?folio=1234

@@ -37,7 +37,6 @@ public class VentaService { //implements IService {
 
         try {
             venta.setTotal(calcularTotal(venta).doubleValue());
-            System.out.println("datos venta - " + venta);
             ventaRepository.save(venta);
             return true;
         } catch (Exception e) {
@@ -105,9 +104,6 @@ public class VentaService { //implements IService {
             venta.getId();
             System.out.println("id_venta - " + venta.getId());
 
-            //Manual, ver si puedo utilizar las entidades
-            //Iterar todas las partidas de cada venta
-            //O sea el campo/arreglo "partida" en el json
             Iterator itr = coll_partidas.iterator();
             while (itr.hasNext()) {
 
@@ -122,7 +118,6 @@ public class VentaService { //implements IService {
                 System.out.println("total - " + total);
             }
 
-            //Manual, ver si puedo utilizar las entidades
             return total;
 
         } catch (Exception e) {

@@ -48,29 +48,7 @@ public class PartidaService {
 
     public String deletePartida(Long id) {
         try {
-
-            //Re-calcular el total de la venta
-//            Optional<Partida> partida;
-//            Partida partida = new Partida();
-            Partida partida = obtenerPorId(id).get();
-            System.out.println("ps - partida - " + partida);
-            Venta venta = partida.getVenta();
             partidaRepository.deleteById(id);
-
-            System.out.println("ps - venta - " + venta);
-//            Long idVenta = venta.getId();
-//            System.out.println("ps - id venta - " + idVenta);
-
-            System.out.println("ps - test");
-            VentaService ventaService = new VentaService();
-
-//            ventaRepository.save(venta);
-
-//            System.out.println("venta con partida a borrar - " + venta);
-//            ventaService.guardarVenta(venta);
-
-//            BigDecimal calcularTotal = VentaService.calcularTotal(venta);
-//            System.out.println("a " + calcularTotal);
             return "Se eliminó la partida con id " + id;
         } catch (Exception e) {
             return "No pudo eliminar la partida con id " + id;
