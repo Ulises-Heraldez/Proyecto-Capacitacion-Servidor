@@ -44,6 +44,13 @@ public class Venta implements Serializable{
     @Column
     private String estado;
 
+    public Venta() {
+    }
+
+    public Venta(Long id) {
+        this.id = id;
+    }
+
    
     //Getters y setters
     @Override

@@ -23,17 +23,28 @@ import java.util.Optional;
 @Service
 public class VentaService { //implements IService {
 
-    @Autowired
-    VentaRepository ventaRepository;
+    private final VentaRepository ventaRepository;
+    private final PartidaRepository partidaRepository;
 
-    @Autowired
-    PartidaRepository partidaRepository;
+    public VentaService(VentaRepository ventaRepository, PartidaRepository partidaRepository) {
+        this.ventaRepository = ventaRepository;
+        this.partidaRepository = partidaRepository;
+    }
 
-    public ArrayList<Venta> obtenerVenta() {
+    public ArrayList<Venta> getVenta() {
         return (ArrayList<Venta>) ventaRepository.findAll();
     }
 
     public boolean guardarVenta(Venta venta) {
+
+        // TODO: Mover logica de negocio a servicio
+//        if (isFolioDuplicado(venta.getFolio(), venta.getId()) == true) {
+        if (isFolioDuplicado(venta) == true) {
+            System.out.println("Folio duplicado");
+            return false;
+            //throw new IllegalArgumentException("Folio duplicado");
+            //throw new FolioDuplicadoException();
+        }
 
         try {
             venta.setTotal(calcularTotal(venta).doubleValue());
@@ -58,22 +69,22 @@ public class VentaService { //implements IService {
         return ventaRepository.findByEstado(Estado);
     }
 
-    public ArrayList<Venta> obtenerPorTotal(Double Total) {
+    public ArrayList<Venta> getPorTotal(Double Total) {
         return ventaRepository.findByTotal(Total);
     }
 
-    public boolean folioDuplicado(String folio, Long id) {
-        if (!(ventaRepository.findByFolio(folio).isEmpty())) {
+//    public boolean isFolioDuplicado(String folio, Long id) {
+    public boolean isFolioDuplicado(Venta venta) {
+        if (!(ventaRepository.findByFolio(venta.getFolio()).isEmpty())) {
 
-            //Declaramos una nueva venta
-            Venta venta = new Venta();
-
+            Long idVenta = venta.getId();
+            
             //Le asignamos la venta obtenida con el folio repetido
-            venta = ventaRepository.findByFolio(folio).get(0);
+            venta = ventaRepository.findByFolio(venta.getFolio()).get(0);
 
             //Si el id de la venta obtenida es el mismo de la nueva, entonces que si 
             //  permita dejar el folio igual, ya que no se repetirá de todas maneras
-            if (id == venta.getId()) {
+            if (idVenta == venta.getId()) {
                 return false;
             }
 

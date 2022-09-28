@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import com.Proyecto_Capacitacion.demo.VentasService.VentaService;
 import java.util.ArrayList;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author TESTER
  */
 @RestController
-//@RequestMapping("/venta")
+@RequestMapping("/venta")
 public class VentaController {
 
     @Autowired
@@ -32,25 +33,21 @@ public class VentaController {
 
     //Agregar venta
     //si se le indica un ID se actualiza en vez de agregar
-    @PostMapping(value = "/ventas")
+    @PostMapping
     public boolean guardarVenta(@RequestBody Venta venta) {
 
-        if (ventaService.folioDuplicado(venta.getFolio(), venta.getId()) == true) {
-            System.out.println("Folio duplicado");
-            return false;
-        }
         
         return this.ventaService.guardarVenta(venta);
     }
 
     //Get venta específica
-    @GetMapping(path = "/ventas/{id}") //http://localhost:8080/ventas/3
+    @GetMapping("/{id}") //http://localhost:8080/ventas/3
     public Optional<Venta> obtenerVentaPorId(@PathVariable("id") Long id) {
         return this.ventaService.obtenerPorId(id);
     }
 
     //Get listado de ventas
-    @GetMapping(path = "/ventas")
+    @GetMapping
     public ArrayList<Venta> obtenerVentaPorValor(
             @RequestParam(value = "folio", required = false) String Folio, //http://localhost:8080/ventas?folio=1234
             @RequestParam(value = "total", required = false) Double Total, //http://localhost:8080/ventas?total=5020
@@ -60,17 +57,17 @@ public class VentaController {
             return this.ventaService.obtenerPorFolio(Folio);
         }
         if (Total != null && Total != 0) {
-            return this.ventaService.obtenerPorTotal(Total);
+            return this.ventaService.getPorTotal(Total);
         }
         if (Estado != null && Estado != "") {
             return this.ventaService.obtenerPorEstado(Estado);
         }
 
-        return ventaService.obtenerVenta();
+        return ventaService.getVenta();
     }
 
     //Eliminar venta
-    @DeleteMapping(path = "/ventas/{id}") //http://localhost:8080/ventas/7
+    @DeleteMapping("/{id}") //http://localhost:8080/ventas/7
     public String eliminarPorId(@PathVariable("id") Long id) {
         return this.ventaService.deleteVenta(id);
     }

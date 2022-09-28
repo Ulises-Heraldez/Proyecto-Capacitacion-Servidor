@@ -42,8 +42,8 @@ public class PartidaService {
         return partidaRepository.findByEstado(Estado);
     }
 
-    public ArrayList<Partida> obtenerPorId_Venta(Long Venta) {
-        return partidaRepository.findByVentaId(Venta);
+    public Iterable<Partida> obtenerPorId_Venta(Venta venta) {
+        return partidaRepository.findByVenta(venta);
     }
 
     public String deletePartida(Long id) {
