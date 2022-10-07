@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-partidas
+      author: [Ulises]
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: partidas
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+                    primaryKey: true
+                    primaryKeyName: partidas_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: partidas_venta_pkey
+                  name: venta
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: articulo
+                  type: VARCHAR(150)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: cantidad
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: precio
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: estado
+                  type: ENUM('Activa', 'Pagada', 'Cancelada')
+            tableName: partidas
+        -  addForeignKeyConstraint:
+            baseColumnNames: venta
+            baseTableName: partidas
+            constraintName: fk_id_venta
+            referencedColumnNames: id
+            referencedTableName: ventas

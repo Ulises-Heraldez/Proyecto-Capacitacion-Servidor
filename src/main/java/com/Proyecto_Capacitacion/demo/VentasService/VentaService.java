@@ -9,12 +9,16 @@ import com.Proyecto_Capacitacion.demo.VentasModelo.Venta;
 import com.Proyecto_Capacitacion.demo.VentasRepository.PartidaRepository;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Proyecto_Capacitacion.demo.VentasRepository.VentaRepository;
+import com.Proyecto_Capacitacion.demo.exception.ApiDuplicatedEntryException;
+import com.Proyecto_Capacitacion.demo.exception.ApiInvalidRequestException;
+import com.Proyecto_Capacitacion.demo.exception.ApiEmptyRequestException;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Optional;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 
 /**
  *
@@ -35,15 +39,12 @@ public class VentaService { //implements IService {
         return (ArrayList<Venta>) ventaRepository.findAll();
     }
 
-    public boolean guardarVenta(Venta venta) {
+    public boolean guardarVenta(Venta venta) throws ApiDuplicatedEntryException {
 
-        // TODO: Mover logica de negocio a servicio
-//        if (isFolioDuplicado(venta.getFolio(), venta.getId()) == true) {
         if (isFolioDuplicado(venta) == true) {
             System.out.println("Folio duplicado");
-            return false;
-            //throw new IllegalArgumentException("Folio duplicado");
-            //throw new FolioDuplicadoException();
+            throw new ApiDuplicatedEntryException("Folio duplicado");
+//            throw new ApiDuplicatedEntryException("Folio duplicado", HttpStatus.FORBIDDEN);
         }
 
         try {
@@ -52,20 +53,39 @@ public class VentaService { //implements IService {
             return true;
         } catch (Exception e) {
             System.out.println("Error: " + e);
-            e.printStackTrace();
             return false;
         }
     }
 
-    public Optional<Venta> obtenerPorId(Long id) {
-        return ventaRepository.findById(id);
+//    public Optional<Venta> getForId(String idS) {
+    public Optional<Venta> getForId(String idS) throws ApiInvalidRequestException, ApiEmptyRequestException {
+
+        try {
+            Long id = Long.parseLong(idS);
+            if (("" + this.ventaRepository.findById(id)).equals("Optional.empty")) {
+                System.out.println("Ese id no existe");
+                throw new ApiEmptyRequestException("Ese id no existe");
+//                throw new ApiInvalidRequestException("Ese id no existe", HttpStatus.NOT_FOUND);
+            }
+            return this.ventaRepository.findById(id);
+        } catch (NumberFormatException nfe) {
+            System.out.println("Ingrese un número válido");
+            throw new ApiInvalidRequestException("Ingrese un número válido");
+//            throw new ApiInvalidRequestException("Ingrese un número válido", HttpStatus.BAD_REQUEST);
+        }
+//        return ventaRepository.findById(id);
+//        return ventaRepository.findById(id);
     }
 
-    public ArrayList<Venta> obtenerPorFolio(String Folio) {
+//    @ExceptionHandler
+//    public String handleInvalidIdException(InvalidIdException iie){
+//        return iie.getMessage();
+//    }
+    public ArrayList<Venta> getForFolio(String Folio) {
         return ventaRepository.findByFolio(Folio);
     }
 
-    public ArrayList<Venta> obtenerPorEstado(String Estado) {
+    public ArrayList<Venta> getForEstado(String Estado) {
         return ventaRepository.findByEstado(Estado);
     }
 
@@ -78,27 +98,37 @@ public class VentaService { //implements IService {
         if (!(ventaRepository.findByFolio(venta.getFolio()).isEmpty())) {
 
             Long idVenta = venta.getId();
-            
+
             //Le asignamos la venta obtenida con el folio repetido
             venta = ventaRepository.findByFolio(venta.getFolio()).get(0);
-
             //Si el id de la venta obtenida es el mismo de la nueva, entonces que si 
-            //  permita dejar el folio igual, ya que no se repetirÃ¡ de todas maneras
+            //  permita dejar el folio igual, ya que no se repetirá de todas maneras
+
             if (idVenta == venta.getId()) {
                 return false;
             }
-
             return true;
         }
         return false;
     }
 
-    public String deleteVenta(Long id) {
+    public void deleteVenta(String idS) throws ApiInvalidRequestException, ApiEmptyRequestException {
+//        try {
+//            ventaRepository.deleteById(id);
+//            return "Se eliminó la venta con id " + id;
+//        } catch (Exception e) {
+//            return "No pudo eliminar la venta con id" + id;
+//        }
+
         try {
-            ventaRepository.deleteById(id);
-            return "Se eliminÃ³ la venta con id " + id;
+            Long id = Long.parseLong(idS);
+            this.ventaRepository.deleteById(id);
+        } catch (NumberFormatException nfe) {
+            throw new ApiInvalidRequestException("Ingrese un número válido");
+        } catch (EmptyResultDataAccessException erdae) {
+            throw new ApiEmptyRequestException("Ese id no existe");
         } catch (Exception e) {
-            return "No pudo eliminar la venta con id" + id;
+            System.out.println("Error al eliminar venta");
         }
     }
 
@@ -121,10 +151,18 @@ public class VentaService { //implements IService {
                 String DetallesVenta = "" + itr.next();
 
                 //Dividir el String con todos los valores mediante un separador
-                String[] Detalles_Venta_Separados = DetallesVenta.split(",");
+                String[] detallesVentaSeparados = DetallesVenta.split(",");
 
                 //Asignar valor a la venta
-                total = total.add(BigDecimal.valueOf(Double.parseDouble(Detalles_Venta_Separados[2])).multiply(BigDecimal.valueOf(Double.parseDouble(Detalles_Venta_Separados[3]))));
+                String cantidadStr = detallesVentaSeparados[2];
+                double cantidadDou = Double.parseDouble(cantidadStr);
+                BigDecimal cantidad = BigDecimal.valueOf(cantidadDou);
+
+                String precioStr = detallesVentaSeparados[3];
+                double precioDou = Double.parseDouble(precioStr);
+                BigDecimal precio = BigDecimal.valueOf(precioDou);
+
+                total = total.add(cantidad.multiply(precio));
 
                 System.out.println("total - " + total);
             }
@@ -137,15 +175,6 @@ public class VentaService { //implements IService {
         }
 
         return total;
-    }
-
-    public boolean eliminarVenta(Long id) {
-        try {
-            ventaRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
 }

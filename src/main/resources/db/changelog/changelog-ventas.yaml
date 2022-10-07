@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-ventas
+      author: [Ulises]
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: ventas
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    unique: true
+                    primaryKey: true
+                    primaryKeyName: ventas_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: folio
+                  type: VARCHAR(150)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: total
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: estado
+                  type: ENUM('Activa', 'Pagada', 'Cancelada')
+            tableName: ventas
