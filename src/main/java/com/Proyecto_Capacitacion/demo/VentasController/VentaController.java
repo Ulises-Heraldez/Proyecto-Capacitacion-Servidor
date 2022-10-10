@@ -21,7 +21,6 @@ import com.Proyecto_Capacitacion.demo.exception.ApiDuplicatedEntryException;
 import com.Proyecto_Capacitacion.demo.exception.ApiInvalidRequestException;
 import com.Proyecto_Capacitacion.demo.exception.ApiEmptyRequestException;
 import java.util.ArrayList;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -42,8 +41,7 @@ public class VentaController {
         return this.ventaService.guardarVenta(venta);
     }
 
-    //Get venta específica
-//    @ControllerAdvice
+    //Get venta especÃ­fica
     @GetMapping("/{id}")
     public Optional<Venta> getVentaForId(@PathVariable("id") String id)
             throws ApiInvalidRequestException, ApiEmptyRequestException {
