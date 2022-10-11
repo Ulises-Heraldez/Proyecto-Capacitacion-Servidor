@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 @RestController
 @RequestMapping("/partida")

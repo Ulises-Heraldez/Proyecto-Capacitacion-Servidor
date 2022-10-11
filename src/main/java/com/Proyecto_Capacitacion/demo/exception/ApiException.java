@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 public class ApiException {
     private final String message;

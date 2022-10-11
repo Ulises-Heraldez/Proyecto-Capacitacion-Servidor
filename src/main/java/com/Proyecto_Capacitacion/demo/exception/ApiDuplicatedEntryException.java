@@ -4,11 +4,9 @@
  */
 package com.Proyecto_Capacitacion.demo.exception;
 
-import org.springframework.http.HttpStatus;
-
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 public class ApiDuplicatedEntryException extends Exception {
 

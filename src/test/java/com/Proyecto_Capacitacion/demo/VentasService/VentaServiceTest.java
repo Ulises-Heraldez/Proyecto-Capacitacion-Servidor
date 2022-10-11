@@ -4,6 +4,7 @@ import com.Proyecto_Capacitacion.demo.VentasModelo.Partida;
 import com.Proyecto_Capacitacion.demo.VentasModelo.Venta;
 import com.Proyecto_Capacitacion.demo.VentasRepository.PartidaRepository;
 import com.Proyecto_Capacitacion.demo.VentasRepository.VentaRepository;
+import com.Proyecto_Capacitacion.demo.exception.ApiDuplicatedEntryException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import static org.mockito.Mockito.mock;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 public class VentaServiceTest {
 
@@ -22,7 +23,7 @@ public class VentaServiceTest {
     VentaService service = new VentaService(ventaRepository, partidaRepository); //mock
 
     @Test
-    public void guardarVenta_Normal_TotalEsCorrecto() {
+    public void guardarVenta_Normal_TotalEsCorrecto() throws ApiDuplicatedEntryException {
 
         Venta venta = ventaTest();
 

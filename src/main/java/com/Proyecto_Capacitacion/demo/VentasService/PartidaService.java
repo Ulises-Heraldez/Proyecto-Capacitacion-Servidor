@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 @Service
 public class PartidaService {

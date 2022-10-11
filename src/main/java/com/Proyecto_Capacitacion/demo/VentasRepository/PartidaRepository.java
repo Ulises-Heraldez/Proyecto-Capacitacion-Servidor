@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 public interface PartidaRepository extends JpaRepository<Partida, Long>{
     public abstract ArrayList<Partida> findByEstado(String Estado);

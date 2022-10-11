@@ -18,11 +18,10 @@ import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 @Service
 public class VentaService { //implements IService {

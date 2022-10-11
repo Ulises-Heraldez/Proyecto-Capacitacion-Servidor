@@ -6,7 +6,7 @@ package com.Proyecto_Capacitacion.demo.exception;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 public class InvalidIdException extends Exception {
     private String message;

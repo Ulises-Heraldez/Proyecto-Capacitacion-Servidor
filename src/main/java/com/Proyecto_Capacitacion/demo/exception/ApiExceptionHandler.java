@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 @ControllerAdvice
 public class ApiExceptionHandler {
     
     @ExceptionHandler(value = {ApiInvalidRequestException.class})
-//    public ResponseEntity<Object> handleApiRequestException(ApiInvalidRequestException e, HttpStatus httpStatus){
     public ResponseEntity<Object> handleApiRequestException(ApiInvalidRequestException e){
         
         //1.- Detalles de la excepción

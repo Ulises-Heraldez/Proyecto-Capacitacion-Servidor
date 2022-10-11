@@ -23,7 +23,7 @@ import javax.persistence.CascadeType;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 @Entity
 @Table(name = "ventas") //Seleccionar el nombre de la tabla, si no lo ponemos se mandan automáticamente a la tabla del nombre de la clase, en este caso "venta"

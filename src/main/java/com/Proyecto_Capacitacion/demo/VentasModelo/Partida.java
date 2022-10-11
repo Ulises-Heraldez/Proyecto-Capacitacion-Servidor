@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 /**
  *
- * @author TESTER
+ * @author ULISES
  */
 @Entity
 @Table(name = "partidas")
