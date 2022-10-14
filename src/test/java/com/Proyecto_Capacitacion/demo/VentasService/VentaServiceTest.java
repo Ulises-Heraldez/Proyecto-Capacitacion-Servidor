@@ -37,7 +37,6 @@ public class VentaServiceTest {
 
         Venta venta = ventaTest();
 
-//        assertEquals(true, venta.getFolio());
         assertEquals(false, service.isFolioDuplicado(venta));
     }
 

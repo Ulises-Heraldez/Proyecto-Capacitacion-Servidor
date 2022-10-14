@@ -28,21 +28,20 @@ public class PartidaController {
     PartidaService partidaService;
 
     //Get lista partidas
-    @GetMapping(value = "/") //http://localhost:8080/partidas
+    @GetMapping(value = "") //http://localhost:8080/partida
     public ArrayList<Partida> getPartida() {
         return partidaService.getPartida();
     }
 
     //Eliminar partida
-    @DeleteMapping(path = "/{id}") //http://localhost:8080/partidas/16
+    @DeleteMapping(path = "/{id}") //http://localhost:8080/partida/16
     public void eliminarPorId(@PathVariable("id") Long id) {
         System.out.println("id de partida a borrar - " + id);
         partidaService.deletePartida(id);
     }
 
-    //Get partida especÃ­fica
-    @GetMapping(path = "/{id}") //http://localhost:8080/partidas/3
-//    public Optional<Partida> getPartidaPorId(@PathVariable("id") Long id) {
+    //Get partida especí­fica
+    @GetMapping(path = "/{id}") //http://localhost:8080/partida/3
     public Optional<Partida> getPartidaPorId(@PathVariable("id") String id) throws ApiInvalidRequestException {
         return this.partidaService.getForId(id);
     }

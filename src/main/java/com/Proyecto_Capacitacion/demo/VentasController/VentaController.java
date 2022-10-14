@@ -40,7 +40,7 @@ public class VentaController {
         return this.ventaService.guardarVenta(venta);
     }
 
-    //Get venta especÃ­fica
+    //Get venta específica
     @GetMapping("/{id}")
     public Optional<Venta> getVentaForId(@PathVariable("id") String id)
             throws ApiInvalidRequestException, ApiEmptyRequestException {
@@ -57,11 +57,9 @@ public class VentaController {
 
         if (Folio != null && Folio != "") {
             return this.ventaService.getForFolio(Folio);
-        }
-        if (Total != null && Total != 0) {
+        }else if (Total != null && Total != 0) {
             return this.ventaService.getPorTotal(Total);
-        }
-        if (Estado != null && Estado != "") {
+        }else if (Estado != null && Estado != "") {
             return this.ventaService.getForEstado(Estado);
         }
 
